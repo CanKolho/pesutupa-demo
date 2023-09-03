@@ -1,0 +1,41 @@
+<% layout("./layouts/loginLayout.eta.html") %>
+
+<div class="wrapper">
+  <form method="POST" action="/auth/login">
+    <h1>Login</h1>
+
+    <% if (it.errors) { %>
+      <ul class="errors">
+        <% it.errors.forEach((error) => { %>
+          <li><%= error %></li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <div class="input-box">
+      <input type="email" name="email" value="<%= it.email ? it.email : "" %>"
+      placeholder="Email" required>
+      <i class='bx bxs-user'></i>
+    </div>
+    <div class="input-box">
+      <input type="password" name="password" value="<%= it.password ? it.password : "" %>" 
+      placeholder="Password" required>
+      <i class='bx bxs-lock-alt'></i>
+    </div>
+  
+    <a class="forgot" href="#">Forgot password?</a>
+
+    <input type="submit" value="Login" class="btn">
+
+    <div class="register-link">
+      <p>
+        Don't have an account? <a href="/auth/register">Register</a>
+      </p>
+    </div>
+    <div class="register-link">
+      <p>
+        <a href="/"> &larr; Go back</a>
+      </p>
+    </div>
+  </form>
+</div>

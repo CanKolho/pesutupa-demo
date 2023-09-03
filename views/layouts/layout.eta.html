@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="icon" href="/static/images/icons8-calendar-16.png" type="image/x-icon">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+  <link href='../../static/styles/mainPage.css' rel='stylesheet'>
+  <link href='../../static/styles/footer.css' rel='stylesheet'>
+
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous" defer></script>
+
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js" defer></script>
+  <script src="../../static/scripts/typed.js" defer></script>
+
+  <title>Reservation App</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #373c4f;">
+    <!-- --> <a class="navbar-brand" href="/"><i class='bx bxs-home'></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/reservations">Reservations <i class='bx bxs-edit-alt'></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/laundry">Laundry room <i class='bx bxs-washer'></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/drying">Drying room <i class='bx bxs-dryer'></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/rules">Rules <i class='bx bxs-book-alt'></i></a>
+        </li>
+      </ul>
+      <% if (it.user) { %>
+        <form class="form-inline" method="POST" action="/auth/logout">
+          <input type="submit" class="btn btn-light my-2 my-sm-0" value="Log Out">
+        </form>
+      <% }; %>
+    </div>
+  </nav>
+  
+  <%~ it.body %>
+
+  <section class="footer-section">
+    <footer class="top">
+      <div class="links">
+        <div class="links-column">
+          <h2>Get Started</h2>
+          <a>Introduction</a>
+          <a>Documentation</a>
+          <a>Usage</a>
+          <a>Globals</a>
+          <a>Elements</a>
+        </div>
+        <div class="links-column">
+          <h2>Resources</h2>
+          <a>API</a>
+          <a>Visibility</a>
+          <a>Accessibility</a>
+          <a>Community</a>
+          <a>Marketplace</a>
+        </div>
+        <!-- 
+          <div class="links-column socials-column">
+            <h2>Social Media</h2>
+            <p>
+              Follow us on social media to find out the latest updates on our
+              progress.
+            </p>
+            <div class="socials">
+              <a class="fa-brands fa-facebook"></a>
+              <a class="fa-brands fa-instagram"></a>
+              <a class="fa-brands fa-linkedin"></a>
+            </div>
+          </div>
+        -->
+      </div>
+    </footer>
+    <footer class="bottom">
+      <p class="copyright">© 2023 All rights reserved</p>
+      <div class="legal">
+        <a> License </a>
+        <a> Terms </a>
+        <a> Privacy </a>
+      </div>
+    </footer>
+  </section>
+</body>
+
+</html>

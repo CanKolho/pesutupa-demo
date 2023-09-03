@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" href="/static/images/icons8-calendar-16.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../static/styles/dryingCal.css"/>
+    <link rel="stylesheet" href="../static/styles/font.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous" defer></script>
+
+    <script src="../static/scripts/dryingCal.js" defer></script>
+
+    <title>Reservation App</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #373c4f;">
+      <!-- --> <a class="navbar-brand" href="/"><i class='bx bxs-home'></i></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/reservations">Reservations <i class='bx bxs-edit-alt'></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/laundry">Laundry room <i class='bx bxs-washer'></i></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/drying">Drying room <i class='bx bxs-dryer'></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/rules">Rules <i class='bx bxs-book-alt'></i></a>
+          </li>
+        </ul>
+        <% if (it.user) { %>
+          <form class="form-inline" method="POST" action="/auth/logout">
+            <input type="submit" class="btn btn-light my-2 my-sm-0" value="Log Out">
+          </form>
+        <% }; %>
+      </div>
+    </nav>
+    <div class="body">
+      <div class="container">
+        <div class="left">
+          <div class="calendar">
+            <div class="month">
+              <i class="fas fa-angle-left prev"></i>
+              <div class="date">december 2015</div>
+              <i class="fas fa-angle-right next"></i>
+            </div>
+            <div class="weekdays">
+              <div>Sun</div>
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
+            </div>
+            <div class="days"></div>
+            <div class="goto-today">
+              <div class="goto">
+                <input type="text" placeholder="mm/yyyy" class="date-input" />
+                <button class="goto-btn">Go</button>
+              </div>
+              <button class="today-btn">Today</button>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="today-date">
+            <div class="event-day">wed</div>
+            <div class="event-date">12th december 2022</div>
+          </div>
+          <div class="events"></div>
+          <div class="add-event-wrapper">
+            <div class="add-event-header">
+              <div class="title">Add Event</div>
+              <i class="fas fa-times close"></i>
+            </div>
+            <div class="add-event-body">
+              <div class="add-event-input">
+                <input type="text" placeholder="Event Name" class="event-name" />
+              </div>
+              <div class="add-event-input">
+                <input
+                  type="text"
+                  placeholder="Event Time From"
+                  class="event-time-from"
+                />
+              </div>
+              <div class="add-event-input">
+                <input
+                  type="text"
+                  placeholder="Event Time To"
+                  class="event-time-to"
+                />
+              </div>
+            </div>
+            <div class="add-event-footer">
+              <button class="add-event-btn">Add Event</button>
+            </div>
+          </div>
+        </div>
+        <button class="add-event">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
