@@ -37,24 +37,6 @@ const months = [
   "December",
 ];
 
-// const eventsArr = [
-//   {
-//     day: 13,
-//     month: 11,
-//     year: 2022,
-//     events: [
-//       {
-//         title: "Event 1 lorem ipsun dolar sit genfa tersd dsad ",
-//         time: "10:00 AM",
-//       },
-//       {
-//         title: "Event 2",
-//         time: "11:00 AM",
-//       },
-//     ],
-//   },
-// ];
-
 const eventsArr = [];
 getEvents();
 console.log(eventsArr);
@@ -66,14 +48,14 @@ function initCalendar() {
   const prevLastDay = new Date(year, month, 0);
   const prevDays = prevLastDay.getDate();
   const lastDate = lastDay.getDate();
-  const day = firstDay.getDay();
-  const nextDays = 7 - lastDay.getDay() - 1;
+  const day = firstDay.getDay(); // Updated to start on Monday
+  const nextDays = 7 - ((lastDay.getDay() + 6) % 7) - 1; // Updated for Monday start
 
   date.innerHTML = months[month] + " " + year;
 
   let days = "";
 
-  for (let x = day; x > 0; x--) {
+  for (let x = (day === 0 ? 6 : day - 1); x > 0; x--) { // Updated for Monday start
     days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
   }
 
@@ -445,12 +427,8 @@ function getEvents() {
 }
 
 function convertTime(time) {
-  //convert time to 24 hour format
   let timeArr = time.split(":");
   let timeHour = timeArr[0];
   let timeMin = timeArr[1];
-  let timeFormat = timeHour >= 12 ? "PM" : "AM";
-  timeHour = timeHour % 12 || 12;
-  time = timeHour + ":" + timeMin + " " + timeFormat;
-  return time;
+  return `${timeHour}:${timeMin}`;
 }
