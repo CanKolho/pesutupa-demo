@@ -13,5 +13,27 @@ const findUserByEmail = async (email) => {
   return rows;
 };
 
+const getAllUserReservations = async (id) => {
+  const rows = await sql`
+    SELECT id, room, apartment, start_time, end_time 
+    FROM laundryRoom 
+    WHERE user_id = ${id}
+    AND end_time > NOW()
 
-export { addUser, findUserByEmail };
+    UNION ALL
+
+    SELECT id, room, apartment, start_time, end_time 
+    FROM dryingRoom 
+    WHERE user_id = ${id}
+    AND end_time > NOW()
+
+    ORDER BY start_time`;
+
+  return rows;
+};
+
+export { 
+  addUser,
+  findUserByEmail,
+  getAllUserReservations, 
+};

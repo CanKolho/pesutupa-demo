@@ -62,7 +62,15 @@ const addLaundryRes = async ({ request, response, user }) => {
   }
 }
 
+const deletelaundryRes = async ({ response, params, user }) => {
+  await laundryService.deletelaundryRes(params.rID, user.id);
+
+  response.status = 204;
+  response.redirect('/reservations');
+};
+
 export {
   getAllLaundryRes,
   addLaundryRes,
+  deletelaundryRes,
 }

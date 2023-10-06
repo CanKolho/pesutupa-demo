@@ -46,10 +46,12 @@ router
 
 router
   .get("/api/laundryroom", laundryApi.getAllLaundryRes)
-  .post("/api/laundryroom", laundryApi.addLaundryRes);
+  .post("/api/laundryroom", laundryApi.addLaundryRes)
+  .post("/api/laundryroom/delete/:rID", laundryApi.deletelaundryRes); //HTTP DELETE
 
 router
   .get("/api/dryingroom", dryingApi.getAllDryingRes)
-  .post("/api/dryingroom", dryingApi.addDryingRes);
+  .post("/api/dryingroom", dryingApi.addDryingRes)
+  .post("/api/dryingroom/delete/:rID", dryingApi.deletedryingRes); //HTTP DELETE
   
 export { router };

@@ -62,7 +62,15 @@ const addDryingRes = async ({ request, response, user }) => {
   }
 }
 
+const deletedryingRes = async ({ response, params, user }) => {
+  await dryingService.deleteDryingRes(params.rID, user.id)
+
+  response.status = 204;
+  response.redirect('/reservations');
+};
+
 export {
   getAllDryingRes,
-  addDryingRes
+  addDryingRes,
+  deletedryingRes,
 }

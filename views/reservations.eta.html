@@ -4,80 +4,33 @@
 
 <br></br>
 
-  <table class="table">
-    <thead>
+<% if (it.reservations && it.reservations.length > 0) { %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Room</th>
+      <th>Time</th>
+      <th>Deletion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% it.reservations.forEach((res) => { %>
       <tr>
-        <th>Room</th>
-        <th>Time</th>
-        <th>Deletion</th>
+        <td><%= res.room %></td>
+        <td><%= res.time %></td>
+        <td>
+          <form method="POST" action="api/<%= res.room === 'Laundry room' ? 'laundryroom' : 'dryingroom' %>/delete/<%= res.id %>">
+            <div class="form-group">
+              <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+            </div>
+          </form>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>Laundry room</td>
-          <td>
-            4.9.2023
-            <br>
-            12:30 - 14:30
-          </td>
-          <td>
-            <form method="POST" action="">
-              <div class="form-group">
-                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
-              </div>
-            </form>
-          </td>
-        </tr>
-        <tr>
-          <td>Drying room</td>
-          <td>
-            4.9.2023 
-            <br>
-            13:00 - 15:30
-          </td>
-          <td>
-            <form method="POST" action="">
-              <div class="form-group">
-                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
-              </div>
-            </form>
-          </td>
-        </tr>
-        <tr>
-          <td>Laundry room</td>
-          <td>
-            10.9.2023
-            <br> 
-            09:30 - 14:30
-          </td>
-          <td>
-            <form method="POST" action="">
-              <div class="form-group">
-                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
-              </div>
-            </form>
-          </td>
-        </tr>
-        <tr>
-          <td>Drying room</td>
-          <td>
-            10.9.2023
-            <br>
-            10:00 - 16:00
-          </td>
-          <td>
-            <form method="POST" action="">
-              <div class="form-group">
-                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
-              </div>
-            </form>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-<% if (!it.user) { %>
- <!-- <p>No answer options!</p> -->
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+  <p>No reservations!</p>
 <% } %>
 
 <br></br>

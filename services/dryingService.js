@@ -13,8 +13,16 @@ const addDryingRes = async (apartment, start_time, end_time, user_id) => {
     VALUES (${ apartment }, ${ start_time }, ${ end_time }, ${ user_id })`
 }
 
+const deleteDryingRes = async (id, user_id) => {
+  await sql`
+    DELETE FROM dryingRoom
+    WHERE id = ${id}
+    AND user_id = ${user_id}`;
+};
+
 export {
   getAllDryingRes,
-  addDryingRes
+  addDryingRes,
+  deleteDryingRes,
 }
 
