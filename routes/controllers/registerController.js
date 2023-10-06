@@ -4,7 +4,7 @@ import { bcrypt, validasaur } from "../../deps.js";
 const registernValidationRules = {
   email: [validasaur.required, validasaur.isEmail],
   password: [validasaur.required, validasaur.minLength(10)],
-  veryfication: [validasaur.required],
+  verification: [validasaur.required],
 };
 
 const getRegisterData = async (request) => {
@@ -14,7 +14,7 @@ const getRegisterData = async (request) => {
   return {
     email: params.get('email'),
     password: params.get('password'),
-    veryfication: params.get('veryfication'),
+    verification: params.get('verification'),
   };
 };
 
@@ -33,7 +33,7 @@ const registerUser = async ({ request, response, render }) => {
   }
 
   //When password and veryfication does not match
-  if (registerData.password !== registerData.veryfication) {
+  if (registerData.password !== registerData.verification) {
     registerData.errors = ['The entered passwords did not match.'];
     render("register.eta.html", registerData);
     return;
