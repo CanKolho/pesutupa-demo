@@ -7,6 +7,8 @@ import * as logoutController from "./controllers/logoutController.js";
 import * as laundryController from "./controllers/laundryController.js";
 import * as dryingController from "./controllers/dryingController.js";
 import * as RulesController from "./controllers/rulesController.js";
+import * as laundryApi from "./apis/laundryApi.js";
+import * as dryingApi from "./apis/dryingApi.js"
 
 const router = new Router();
 
@@ -41,5 +43,13 @@ router
 //Rules room related
 router
   .get("/rules", RulesController.showRules);
+
+router
+  .get("/api/laundryroom", laundryApi.getAllLaundryRes)
+  .post("/api/laundryroom", laundryApi.addLaundryRes);
+
+router
+  .get("/api/dryingroom", dryingApi.getAllDryingRes)
+  .post("/api/dryingroom", dryingApi.addDryingRes);
   
 export { router };

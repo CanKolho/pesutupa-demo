@@ -37,11 +37,9 @@ const months = [
   "December",
 ];
 
-const eventsArr = [];
-getEvents();
-console.log(eventsArr);
+const dryingRes = [];
+getEventsFromAPI();
 
-//function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
 //function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
 function initCalendar() {
   const firstDay = new Date(year, month, 1);
@@ -61,9 +59,9 @@ function initCalendar() {
   }
 
   for (let i = 1; i <= lastDate; i++) {
-    //check if event is present on that day
+    //check if event is present on that day 
     let event = false;
-    eventsArr.forEach((eventObj) => {
+    dryingRes.forEach((eventObj) => {
       if (
         eventObj.day === i &&
         eventObj.month === month + 1 &&
@@ -122,8 +120,6 @@ function nextMonth() {
 
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
-
-initCalendar();
 
 //function to add active on day
 function addListner() {
@@ -223,32 +219,58 @@ function getActiveDay(date) {
 //function update events when a day is active
 function updateEvents(date) {
   let events = "";
-  eventsArr.forEach((event) => {
-    if (
-      date === event.day &&
-      month + 1 === event.month &&
-      year === event.year
-    ) {
-      event.events.forEach((event) => {
-        events += `<div class="event">
-            <div class="title">
-              <i class="fas fa-circle"></i>
-              <h3 class="event-title">${event.title}</h3>
-            </div>
-            <div class="event-time">
-              <span class="event-time">${event.time}</span>
-            </div>
-        </div>`;
-      });
-    }
+  const filteredEvents = dryingRes.filter((event) => {
+    return date === event.day && month + 1 === event.month && year === event.year;
   });
+
+  // Sort the filtered events by year, month, day, and time
+  filteredEvents.sort((a, b) => {
+    if (a.year !== b.year) {
+      return a.year - b.year;
+    }
+    if (a.month !== b.month) {
+      return a.month - b.month;
+    }
+    if (a.day !== b.day) {
+      return a.day - b.day;
+    }
+
+    // Compare event times
+    const timeA = a.time.split(" - ")[0]; // Start time
+    const timeB = b.time.split(" - ")[0]; // Start time
+    const timePartsA = timeA.split(":");
+    const timePartsB = timeB.split(":");
+    const hourA = parseInt(timePartsA[0], 10);
+    const minuteA = parseInt(timePartsA[1], 10);
+    const hourB = parseInt(timePartsB[0], 10);
+    const minuteB = parseInt(timePartsB[1], 10);
+
+    if (hourA !== hourB) {
+      return hourA - hourB;
+    }
+
+    return minuteA - minuteB;
+  });
+
+  filteredEvents.forEach((event) => {
+    events += `<div class="event">
+        <div class="title">
+          <i class="fas fa-circle"></i>
+          <h3 class="event-title">${event.title}</h3>
+        </div>
+        <div class="event-time">
+          <span class="event-time">${event.time}</span>
+        </div>
+    </div>`;
+  });
+
   if (events === "") {
     events = `<div class="no-event">
             <h3>No Events</h3>
         </div>`;
   }
+
   eventsContainer.innerHTML = events;
-  saveEvents();
 }
 
 //function to add event
@@ -292,7 +314,7 @@ addEventTo.addEventListener("input", (e) => {
   }
 });
 
-//function to add event to eventsArr
+//function to add event to dryingRes
 addEventSubmit.addEventListener("click", () => {
   const eventTitle = addEventTitle.value;
   const eventTimeFrom = addEventFrom.value;
@@ -320,60 +342,46 @@ addEventSubmit.addEventListener("click", () => {
   const timeFrom = convertTime(eventTimeFrom);
   const timeTo = convertTime(eventTimeTo);
 
-  //check if event is already added
-  let eventExist = false;
-  eventsArr.forEach((event) => {
-    if (
-      event.day === activeDay &&
-      event.month === month + 1 &&
-      event.year === year
-    ) {
-      event.events.forEach((event) => {
-        if (event.title === eventTitle) {
-          eventExist = true;
-        }
-      });
-    }
-  });
-  if (eventExist) {
-    alert("Event already added");
-    return;
-  }
   const newEvent = {
     title: eventTitle,
     time: timeFrom + " - " + timeTo,
+    start_time: `${year}-${month + 1}-${activeDay} ${timeFrom}`,
+    end_time: `${year}-${month + 1}-${activeDay} ${timeTo}`,    
   };
-  console.log(newEvent);
-  console.log(activeDay);
-  let eventAdded = false;
-  if (eventsArr.length > 0) {
-    eventsArr.forEach((item) => {
-      if (
-        item.day === activeDay &&
-        item.month === month + 1 &&
-        item.year === year
-      ) {
-        item.events.push(newEvent);
-        eventAdded = true;
-      }
-    });
-  }
 
-  if (!eventAdded) {
-    eventsArr.push({
-      day: activeDay,
-      month: month + 1,
-      year: year,
-      events: [newEvent],
-    });
-  }
+  const jsonData = JSON.stringify(newEvent);
 
-  console.log(eventsArr);
+  // Define your API endpoint URL
+  const apiUrl = '/api/dryingroom'; // Replace with your actual API URL
+
+  // Make a POST request to your API
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: jsonData
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(err => { throw err; });
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+    dryingRes.push(data);
+    updateEvents(activeDay);
+  })
+  .catch(error => {
+    console.log('Error:', error);
+    window.alert(error.error);
+  });
+
   addEventWrapper.classList.remove("active");
   addEventTitle.value = "";
   addEventFrom.value = "";
   addEventTo.value = "";
-  updateEvents(activeDay);
   //select active day and add event class if not added
   const activeDayEl = document.querySelector(".day.active");
   if (!activeDayEl.classList.contains("event")) {
@@ -381,50 +389,21 @@ addEventSubmit.addEventListener("click", () => {
   }
 });
 
-//function to delete event when clicked on event
-eventsContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("event")) {
-    if (confirm("Are you sure you want to delete this event?")) {
-      const eventTitle = e.target.children[0].children[1].innerHTML;
-      eventsArr.forEach((event) => {
-        if (
-          event.day === activeDay &&
-          event.month === month + 1 &&
-          event.year === year
-        ) {
-          event.events.forEach((item, index) => {
-            if (item.title === eventTitle) {
-              event.events.splice(index, 1);
-            }
-          });
-          //if no events left in a day then remove that day from eventsArr
-          if (event.events.length === 0) {
-            eventsArr.splice(eventsArr.indexOf(event), 1);
-            //remove event class from day
-            const activeDayEl = document.querySelector(".day.active");
-            if (activeDayEl.classList.contains("event")) {
-              activeDayEl.classList.remove("event");
-            }
-          }
-        }
-      });
-      updateEvents(activeDay);
-    }
-  }
-});
+function getEventsFromAPI() {
+  const apiUrl = '/api/dryingroom';
 
-//function to save events in local storage
-function saveEvents() {
-  localStorage.setItem("events", JSON.stringify(eventsArr));
-}
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      dryingRes.length = 0;
+      dryingRes.push(...data);
+      console.log('init', dryingRes);
 
-//function to get events from local storage
-function getEvents() {
-  //check if events are already saved in local storage then return event else nothing
-  if (localStorage.getItem("events") === null) {
-    return;
-  }
-  eventsArr.push(...JSON.parse(localStorage.getItem("events")));
+      initCalendar()
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
 
 function convertTime(time) {

@@ -1,5 +1,4 @@
-/*const restrictedPaths = ["/reservations", "/laundry", "/drying", "/rules"];*/
-const restrictedPaths = [];
+const restrictedPaths = ["/reservations", "/laundry", "/drying", "/rules"];
 
 const authMiddleware = async (context, next) => {
   const user = await context.state.session.get("user");
