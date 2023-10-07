@@ -13,7 +13,8 @@ function formatDate(start, end) {
   const endHours = String(endDate.getUTCHours()).padStart(2, '0');
   const endMinutes = String(endDate.getUTCMinutes()).padStart(2, '0');
 
-  return `${day}.${month}.${year} ${startHours}:${startMinutes} - ${endHours}:${endMinutes}`;
+  //Reservation's date and time i.e [7.10.2023, 12:00 - 13:00]
+  return [`${day}.${month}.${year}`, `${startHours}:${startMinutes} - ${endHours}:${endMinutes}`] 
 }
 
 const showReservations = async ({ render, user }) => {
@@ -24,7 +25,8 @@ const showReservations = async ({ render, user }) => {
       {
         id: res.id,
         room: res.room,
-        time: formatDate(res.start_time, res.end_time),
+        date: formatDate(res.start_time, res.end_time)[0],
+        time: formatDate(res.start_time, res.end_time)[1],
       }
     ));
 

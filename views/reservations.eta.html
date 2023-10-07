@@ -17,7 +17,11 @@
     <% it.reservations.forEach((res) => { %>
       <tr>
         <td><%= res.room %></td>
-        <td><%= res.time %></td>
+        <td>
+          <%= res.date %>
+          <br>
+          <%= res.time %>
+        </td>
         <td>
           <form method="POST" action="api/<%= res.room === 'Laundry room' ? 'laundryroom' : 'dryingroom' %>/delete/<%= res.id %>">
             <div class="form-group">
