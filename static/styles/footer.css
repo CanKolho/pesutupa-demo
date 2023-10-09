@@ -1,6 +1,6 @@
 .footer-section {
   width: 100%;
-  background: transparent;
+  background: rgb(24, 8, 63);
   -webkit-backdrop-filter: blur(8rem);
   backdrop-filter: blur(8rem); 
   padding-top: 60px;

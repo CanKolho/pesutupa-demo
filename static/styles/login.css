@@ -3,16 +3,17 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  /*background: radial-gradient(997px at 5.8% 11.8%, rgb(0, 201, 235) 0%, rgb(145, 0, 228) 90%);*/
+  background: rgb(92, 92, 255);
+  /*background: radial-gradient(997px at 5.8% 11.8%, rgb(0, 201, 235) 0%, rgb(145, 0, 228) 90%);
   background: url('../images/login.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center;*/
   padding: 2.5rem;
 }
 
 .wrapper {
   width: 42rem;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.08);
   border: .2rem solid rgba(255, 255, 255, .2);
   
   -webkit-backdrop-filter: blur(5rem);

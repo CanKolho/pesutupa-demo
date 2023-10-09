@@ -12,10 +12,10 @@
 }
 
 body {
-  /*background: radial-gradient(997px at 5.8% 11.8%, rgb(0, 201, 235) 0%, rgb(145, 0, 228) 90%);*/
-	background: url('../images/register2.jpg');
+  background: #caf0f8;
+	/*background: url('../images/register2.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center;*/
 	font-family:roboto, Arial, Helvetica, sans-serif;
 }
 
