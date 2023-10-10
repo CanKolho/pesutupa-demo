@@ -5,13 +5,17 @@
     <h3>Effortless Laundry.</h3>
     <p>Make reservations <span class="multiple-text"></span></p>
     <% if (!it.user) { %>
-      <a href="/auth/login" class="btn btn-dark ">Log In</a>
-      <a href="/auth/register" class="btn btn-light">Register</a>
-    <% }; %>
+      <div class="buttons">
+        <a href="/auth/login" class="btn btn-primary">Log In</a>
+        <a href="/auth/register" class="btn btn-light">Register</a>
+      </div> 
+    <% } %>
   </div>
+  <!-- 
   <div class="home-img">
     <img src="../static/images/reservations.png" alt="" loading="lazy">
   </div>
+  -->
 </section>
 
 

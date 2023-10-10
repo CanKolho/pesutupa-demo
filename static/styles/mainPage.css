@@ -12,13 +12,11 @@
 }
 
 body {
-  background: #caf0f8;
-	/*background: url('../images/register2.jpg');
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/laundry.jpg');
   background-size: cover;
-  background-position: center;*/
-	font-family:roboto, Arial, Helvetica, sans-serif;
+  background-position: center;
+  font-family: roboto, Arial, Helvetica, sans-serif;
 }
-
 
 section {
   padding: 0rem 9% 2rem;
@@ -29,7 +27,7 @@ section {
   display: flex;
 	align-items: center;
 	justify-content: center;
-  color: black;
+  color: var(--white);
 }
 
 .home-content h3 {
@@ -42,7 +40,7 @@ section {
 }
 
 span {
-	color: black;
+	color:var(--white);
 }
 
 .home-content p {
@@ -71,11 +69,6 @@ span {
     flex-direction: column;
     font-size: 62.5%;
   }
-
-	.home-img img {
-		width: 85vw;
-		margin-top: 4rem;
-	}
 }
 
 @media (max-width: 768px) {
@@ -87,8 +80,8 @@ span {
     font-size: 1.3rem;
   }
 
-	.home-img img {
-		width: 95vw;
-		margin-top: 4rem;
+  .buttons {
+		display: flex;
+		justify-content: center;
 	}
 }
