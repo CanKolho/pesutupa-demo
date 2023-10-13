@@ -49,7 +49,7 @@ const processUserEmail = async ({ request, response, render }) => {
 
   const token = await create(header, payload, SECRET);
 
-  const link = `http://localhost:7777/reset-password/${user.id}/${token}`
+  const link = `https://reservation-app-beta.onrender.com/reset-password/${user.id}/${token}`
   
   await sendEmail(user.email, link);
 
