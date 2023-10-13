@@ -8,7 +8,8 @@ import * as laundryController from "./controllers/laundryController.js";
 import * as dryingController from "./controllers/dryingController.js";
 import * as RulesController from "./controllers/rulesController.js";
 import * as laundryApi from "./apis/laundryApi.js";
-import * as dryingApi from "./apis/dryingApi.js"
+import * as dryingApi from "./apis/dryingApi.js";
+import * as resetPasswordController from "./controllers/resetPasswordController.js";
 
 const router = new Router();
 
@@ -53,5 +54,11 @@ router
   .get("/api/dryingroom", dryingApi.getAllDryingRes)
   .post("/api/dryingroom", dryingApi.addDryingRes)
   .post("/api/dryingroom/delete/:rID", dryingApi.deletedryingRes); //HTTP DELETE
-  
+
+router
+  .get("/forgot-password", resetPasswordController.showForgotPasswordForm)
+  .post("/forgot-password", resetPasswordController.processUserEmail)
+  .get("/reset-password/:id/:token", resetPasswordController.showResetPasswordForm)
+  .post("/reset-password/:id/:token", resetPasswordController.processNewPassword);
+
 export { router };

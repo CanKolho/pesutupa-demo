@@ -13,6 +13,15 @@ const findUserByEmail = async (email) => {
   return rows;
 };
 
+const findUserByID = async (id) => {
+  const rows = await sql`
+  SELECT *
+  FROM users
+  WHERE id = ${ id }`;
+
+  return rows;
+};
+
 const getAllUserReservations = async (id) => {
   const rows = await sql`
     SELECT id, room, apartment, start_time, end_time 
@@ -32,8 +41,17 @@ const getAllUserReservations = async (id) => {
   return rows;
 };
 
+const resetPassword = async (id, newPassword) => {
+  await sql`
+    UPDATE users
+    SET password = ${ newPassword }
+    WHERE id = ${ id }`;
+};
+
 export { 
   addUser,
   findUserByEmail,
-  getAllUserReservations, 
+  findUserByID,
+  getAllUserReservations,
+  resetPassword,
 };

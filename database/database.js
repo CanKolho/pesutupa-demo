@@ -1,8 +1,9 @@
 import { postgres } from "../deps.js";
+import { DATABASE_URL } from "../config/config.js";
 
 let sql;
-if (Deno.env.get("DATABASE_URL")) {
-  sql = postgres(Deno.env.get("DATABASE_URL"));
+if (DATABASE_URL) {
+  sql = postgres(DATABASE_URL);
 } else {
   sql = postgres({});
 }

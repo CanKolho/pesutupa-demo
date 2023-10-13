@@ -1,11 +1,8 @@
 import { SMTPClient } from "../deps.js";
+import { SEND_EMAIL, PASSWORD } from "../config/config.js";
 
-const sendEmail = async (reveiver, link) => {
+const sendEmail = async (receiver, link) => {
   console.log('connecting...');
-
-  //these will be env
-  const email = '';
-  const password = '';
 
   const client = new SMTPClient({
     connection: {
@@ -13,8 +10,8 @@ const sendEmail = async (reveiver, link) => {
       port: 465,
       tls: true,
       auth: {
-        username: email,
-        password: password,
+        username: SEND_EMAIL,
+        password: PASSWORD,
       },
     },
   });
@@ -22,11 +19,11 @@ const sendEmail = async (reveiver, link) => {
   console.log('connected');
 
   try {
-    console.log('sending to ', reveiver);
+    console.log('sending to ', receiver);
 
     await client.send({
-      from: email,
-      to: reveiver,
+      from: SEND_EMAIL,
+      to: receiver,
       subject: "RESET PASSWORD",
       html: `<p>Reset your password using this link - <a href='${link}'>${link}</a></p>`,
     });
