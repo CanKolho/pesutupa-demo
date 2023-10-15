@@ -3,7 +3,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: rgb(92, 92, 255);
+  background: #0d1117;
   padding: 2.5rem;
 }
 
@@ -11,10 +11,10 @@ body {
   width: 42rem;
   background-color: rgba(255, 255, 255, 0.08);
   border: .2rem solid rgba(255, 255, 255, .2);
-  
-  -webkit-backdrop-filter: blur(5rem);
-  backdrop-filter: blur(5rem); 
 
+  -webkit-backdrop-filter: blur(10rem);
+  backdrop-filter: blur(10rem); 
+  
   color: var(--white);
   border-radius: 1rem;
   padding: 3rem 4rem;
@@ -81,7 +81,7 @@ body {
   font-size: 1.6rem;
   color: #333;
   font-weight: 600;
-  transition: 0.15s;
+  transition: .15s;
 }
 
 .wrapper .btn:hover {
@@ -106,6 +106,13 @@ body {
 
 .errors {
   margin-top: 1rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.PWerrors {
+  margin-top: 1rem;
   font-size: 1.7rem;
   text-align: center;
+  color: rgb(255, 48, 48);
 }

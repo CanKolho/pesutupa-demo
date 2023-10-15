@@ -4,9 +4,6 @@ body {
   align-items: center;
   min-height: 100vh;
   background: rgb(92, 92, 255);
-  /*background: url('../images/register1.jpg');
-  background-size: cover;
-  background-position: center;*/
   padding: 2.5rem;
 }
 
@@ -109,6 +106,6 @@ body {
 
 .errors {
   margin-top: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   text-align: center;
 }

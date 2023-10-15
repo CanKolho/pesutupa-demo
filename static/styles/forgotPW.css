@@ -3,7 +3,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: rgb(92, 92, 255);
+  background: #0d1117;
   padding: 2.5rem;
 }
 
@@ -104,8 +104,17 @@ body {
   text-decoration: underline;
 }
 
-.errors {
+.errors, .info {
   margin-top: 1rem;
   font-size: 1.7rem;
   text-align: center;
+}
+
+.errors {
+  color: rgb(255, 48, 48);
+}
+
+
+.info {
+  color: rgb(117, 189, 117);
 }

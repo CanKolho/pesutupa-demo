@@ -1,70 +1,32 @@
 import * as userService from "../../services/userService.js";
-import { create, verify, getNumericDate} from "../../deps.js";
+import { validasaur, verify } from "../../deps.js";
 import { SECRET } from "../../config/config.js";
 import { bcrypt } from "../../deps.js";
-import { sendEmail } from "../../utils/email.js";
 
-//TODO 
-/**
- * Datan validointi
- * kaksi newpassword inputtia
- * error messaget kuntoon
- * styles
- * 
- */
-const getEmailData = async (request) => {
-  const body = request.body({ type: 'form'});
+const passwordValidationRules = {
+  newPassword: [validasaur.required, validasaur.minLength(10)],
+  passwordConfirmation: [validasaur.required],
+};
+
+const getPasswordData = async (request) => {
+  const body = request.body({ type: "form" });
   const params = await body.value;
 
-  return { 
-    email: params.get('email')
+  return {
+    newPassword: params.get('newPassword'),
+    passwordConfirmation: params.get('confirmPassword'),
   };
 };
 
-const showForgotPasswordForm = async ({request, render }) => {
-  render('forgotPassword.html', await getEmailData(request))
-};
-
-const processUserEmail = async ({ request, response, render }) => {
-  const data = await getEmailData(request);
-
-  const userFromDatabase = await userService.findUserByEmail(data.email);
-
-  if (userFromDatabase.length != 1) {
-    data.errors = ['Something went wrong. Please check your email.'];
-
-    render("forgotPassword.html", data);
-    return;
-  }
-
-  const user = userFromDatabase[0];
-
-  const payload = {
-    email: user.email,
-    id: user.id,
-    exp: getNumericDate(600) //10min
-  };
-
-  const header = { alg: "HS512", typ: "JWT" };
-
-  const token = await create(header, payload, SECRET);
-
-  const link = `https://reservation-app-beta.onrender.com/reset-password/${user.id}/${token}`
-  
-  await sendEmail(user.email, link);
-
-  render("forgotPassword.html", { info: ['The reset-link has been sent to your email!'] });
-};
-
-const showResetPasswordForm = async ({ request, render, params, response }) => {
+const showResetPasswordForm = async ({ render, params }) => {
   const { id, token } = params;
   
   const userFromDatabase = await userService.findUserByID(id);
 
   if (userFromDatabase.length != 1) {
-    const err = ['Something went wrong...'];
-
-    render('resetPassword.html', { errors: err });
+    render('resetPassword.html', { 
+      errors: ['Something went wrong...'] 
+    });
     return;
   }
 
@@ -72,43 +34,61 @@ const showResetPasswordForm = async ({ request, render, params, response }) => {
     const payload = await verify(token, SECRET);
     render('resetPassword.html', { email: payload.email })
   } catch (error) {
-    const err = ['Something went wrong...'];
+    const err = ['The Link You Followed Has Expired!'];
     render('resetPassword.html', { errors: err });
   }
 };
 
 const processNewPassword = async ({ request, render, params, response }) => {
   const { id, token } = params;
+  const passwordData = await getPasswordData(request);
 
-  const body = request.body({ type: 'form'});
-  const reqParams = await body.value;
-  const newPassword = reqParams.get('newPassword');
+  //passwordErrors are not currently used!
+  const [passes, passwordErrors] = await validasaur.validate(passwordData, passwordValidationRules);
 
   const userFromDatabase = await userService.findUserByID(id);
 
   if (userFromDatabase.length != 1) {
-    const err = ['Something went wrong...'];
-
-    render('resetPassword.html', { errors: err });
+    render('resetPassword.html', {
+      errors: ['Something went wrong...'] 
+    });
     return;
   }
 
   try {
     const payload = await verify(token, SECRET);
-    const hash = await bcrypt.hash(newPassword);
 
+    //Need to check here both validations because of the payload email
+    if (passwordData.newPassword !== passwordData.passwordConfirmation) {
+      render('resetPassword.html', {
+        email: payload.email,
+        PWerrors: ['The entered passwords did not match.']
+      });
+      return;
+    }
+
+    //passwordErrors should be used here
+    if (!passes) {
+      render('resetPassword.html', { 
+        email: payload.email,
+        PWerrors: ['Validation failed!']
+      });
+      return;
+    }
+
+    //If passwords are valid, the newPassword gets hashed
+    const hash = await bcrypt.hash(passwordData.newPassword);
     await userService.resetPassword(payload.id, hash);
 
     response.redirect("/auth/login");
   } catch (error) {
-    const err = ['Something went wrong...'];
-    render('resetPassword.html', { errors: err });
+    render('resetPassword.html', { 
+      errors: ['The Link You Followed Has Expired!']
+    });
   }
 };
 
 export {
-  showForgotPasswordForm,
-  processUserEmail,
   showResetPasswordForm,
   processNewPassword,
 };

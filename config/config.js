@@ -8,4 +8,4 @@ const key = await crypto.subtle.generateKey(
   ["sign", "verify"],
 );
 
-export const SECRET = key
+export const SECRET = key;
