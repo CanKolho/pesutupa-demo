@@ -1,5 +1,5 @@
 import * as dryingService from "../../services/dryingService.js"
-import { timeParses } from "../../utils/helper.js";
+import { timeParser } from "../../utils/helper.js";
 
 const getAllDryingRes = async ({ response }) => {
   try {
@@ -37,7 +37,7 @@ const addDryingRes = async ({ request, response, user }) => {
   try {
     await dryingService.addDryingRes(content.title, content.start_time, content.end_time, user.id)
 
-    const date = timeParses(content.start_time);
+    const date = timeParser(content.start_time);
 
     response.body = {
       title: content.title,

@@ -1,5 +1,5 @@
 import * as laundryService from "../../services/laundryService.js";
-import { timeParses } from "../../utils/helper.js";
+import { timeParser } from "../../utils/helper.js";
 
 const getAllLaundryRes = async ({ response }) => {
   try {
@@ -37,7 +37,7 @@ const addLaundryRes = async ({ request, response, user }) => {
   try {
     await laundryService.addLaundryRes(content.title, content.start_time, content.end_time, user.id)
 
-    const date = timeParses(content.start_time);
+    const date = timeParser(content.start_time);
 
     response.body = {
       title: content.title,
