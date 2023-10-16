@@ -3,7 +3,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #0d1117;
+  background: var(--auth-bg);
   padding: 2.5rem;
 }
 
@@ -106,7 +106,7 @@ body {
 
 .errors {
   margin-top: 1rem;
-  font-size: 2rem;
+  font-size: 1.8rem;
   text-align: center;
 }
 
@@ -114,5 +114,4 @@ body {
   margin-top: 1rem;
   font-size: 1.7rem;
   text-align: center;
-  color: rgb(255, 48, 48);
 }

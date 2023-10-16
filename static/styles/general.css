@@ -21,6 +21,7 @@ html {
   --blue: #3179ff;
   --text-white: #ffffff;
   --text-black: #000000;
+  --auth-bg: rgb(92, 92, 255);
 
   /*switch*/
   --white: white;

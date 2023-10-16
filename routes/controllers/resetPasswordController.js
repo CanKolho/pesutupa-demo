@@ -34,7 +34,7 @@ const showResetPasswordForm = async ({ render, params }) => {
     const payload = await verify(token, SECRET);
     render('resetPassword.html', { email: payload.email })
   } catch (error) {
-    const err = ['The Link You Followed Has Expired!'];
+    const err = ['The Link You Followed Has Expired.'];
     render('resetPassword.html', { errors: err });
   }
 };
@@ -83,7 +83,7 @@ const processNewPassword = async ({ request, render, params, response }) => {
     response.redirect("/auth/login");
   } catch (error) {
     render('resetPassword.html', { 
-      errors: ['The Link You Followed Has Expired!']
+      errors: ['The Link You Followed Has Expired.']
     });
   }
 };
