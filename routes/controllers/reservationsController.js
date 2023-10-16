@@ -5,14 +5,15 @@ const showReservations = async ({ render, user }) => {
   const rows = await userService.getAllUserReservations(user.id);
 
   const modifiedRows = rows
-    .map(res => (
-      {
+    .map(res => {
+      const [date, time] = formatDate(res.start_time, res.end_time);
+      return {
         id: res.id,
         room: res.room,
-        date: formatDate(res.start_time, res.end_time)[0],
-        time: formatDate(res.start_time, res.end_time)[1],
+        date,
+        time,
       }
-    ));
+    });
 
   render("reservations.eta.html", { reservations: modifiedRows });
 };
