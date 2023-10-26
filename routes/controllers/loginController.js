@@ -37,6 +37,10 @@ const processLogin = async ({ request, response, state, render }) => {
   }
 
   //Both email and password are valid
+
+  //Deleting password from user-Object that in only has properties { id, email } in session storage
+  delete user.password;
+
   await state.session.set('user', user);
   response.redirect('/reservations');
 };
