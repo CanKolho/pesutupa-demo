@@ -9,3 +9,4 @@ export { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 export { superoak } from "https://deno.land/x/superoak@4.7.0/mod.ts";
 export { SMTPClient } from "https://deno.land/x/denomailer/mod.ts";
 export { create, verify, getNumericDate } from "https://deno.land/x/djwt@v2.9.1/mod.ts";
+export { Snelm } from "https://deno.land/x/snelm/mod.ts";
