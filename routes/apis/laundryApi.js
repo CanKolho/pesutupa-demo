@@ -37,14 +37,14 @@ const addLaundryRes = async ({ request, response, user }) => {
   try {
     await laundryService.addLaundryRes(content.title, content.start_time, content.end_time, user.id)
 
-    const date = timeParser(content.start_time);
+    const { year, month, day } = timeParser(content.start_time);
 
     response.body = {
       title: content.title,
       time: content.time,
-      year: date.year,
-      month: date.month,
-      day: date.day,
+      year,
+      month,
+      day
     };
 
   } catch (error) {
