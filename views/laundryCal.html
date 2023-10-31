@@ -67,7 +67,7 @@
           <div class="calendar">
             <div class="month">
               <i class="fas fa-angle-left prev"></i>
-              <div class="date">december 2015</div>
+              <div class="date"></div>
               <i class="fas fa-angle-right next"></i>
             </div>
             <div class="weekdays">
@@ -81,18 +81,14 @@
             </div>
             <div class="days"></div>
             <div class="goto-today">
-              <div class="goto">
-                <input type="text" placeholder="mm/yyyy" class="date-input" />
-                <button class="goto-btn">Go</button>
-              </div>
               <button class="today-btn">Today</button>
             </div>
           </div>
         </div>
         <div class="right">
           <div class="today-date">
-            <div class="event-day">wed</div>
-            <div class="event-date">12th december 2022</div>
+            <div class="event-day"></div>
+            <div class="event-date"></div>
           </div>
           <div class="events"></div>
           <div class="add-event-wrapper">
@@ -101,26 +97,26 @@
               <i class="fas fa-times close"></i>
             </div>
             <div class="add-event-body">
-              <div class="add-event-input">
-                <input type="text" placeholder="Event Name" class="event-name" />
+              <div class="custom-select">
+                <select id="select-apartment">
+                  <option>Apartment</option>
+                </select>
               </div>
-              <div class="add-event-input">
-                <input
-                  type="text"
-                  placeholder="Event Time From"
-                  class="event-time-from"
-                />
-              </div>
-              <div class="add-event-input">
-                <input
-                  type="text"
-                  placeholder="Event Time To"
-                  class="event-time-to"
-                />
+              <div class="time-select">
+                <div class="custom-select" >
+                  <select id="select-start">
+                    <option>Start time</option>
+                  </select>
+                </div>
+                <div class="custom-select">
+                  <select id="select-end">
+                    <option>End time</option>
+                  </select>
+                </div>
               </div>
             </div>
             <div class="add-event-footer">
-              <button class="add-event-btn">Add Event</button>
+              <button class="add-event-btn">Reserve</button>
             </div>
           </div>
         </div>

@@ -12,10 +12,10 @@ const calendar = document.querySelector(".calendar"),
   addEventBtn = document.querySelector(".add-event"),
   addEventWrapper = document.querySelector(".add-event-wrapper "),
   addEventCloseBtn = document.querySelector(".close "),
-  addEventTitle = document.querySelector(".event-name "),
-  addEventFrom = document.querySelector(".event-time-from "),
-  addEventTo = document.querySelector(".event-time-to "),
-  addEventSubmit = document.querySelector(".add-event-btn ");
+  addEventSubmit = document.querySelector(".add-event-btn "),
+  selectStart = document.querySelector('#select-start'),
+  selectEnd = document.querySelector('#select-end'),
+  selectElement = document.querySelector('#select-apartment');
 
 let today = new Date();
 let activeDay;
@@ -177,36 +177,6 @@ todayBtn.addEventListener("click", () => {
   initCalendar();
 });
 
-dateInput.addEventListener("input", (e) => {
-  dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
-  if (dateInput.value.length === 2) {
-    dateInput.value += "/";
-  }
-  if (dateInput.value.length > 7) {
-    dateInput.value = dateInput.value.slice(0, 7);
-  }
-  if (e.inputType === "deleteContentBackward") {
-    if (dateInput.value.length === 3) {
-      dateInput.value = dateInput.value.slice(0, 2);
-    }
-  }
-});
-
-gotoBtn.addEventListener("click", gotoDate);
-
-function gotoDate() {
-  console.log("here");
-  const dateArr = dateInput.value.split("/");
-  if (dateArr.length === 2) {
-    if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
-      month = dateArr[0] - 1;
-      year = dateArr[1];
-      initCalendar();
-      return;
-    }
-  }
-  alert("Invalid Date");
-}
 
 //function get active day day name and date and update eventday eventdate
 function getActiveDay(date) {
@@ -288,38 +258,12 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//allow 50 chars in eventtitle
-addEventTitle.addEventListener("input", (e) => {
-  addEventTitle.value = addEventTitle.value.slice(0, 60);
-});
-
-//allow only time in eventtime from and to
-addEventFrom.addEventListener("input", (e) => {
-  addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-  if (addEventFrom.value.length === 2) {
-    addEventFrom.value += ":";
-  }
-  if (addEventFrom.value.length > 5) {
-    addEventFrom.value = addEventFrom.value.slice(0, 5);
-  }
-});
-
-addEventTo.addEventListener("input", (e) => {
-  addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
-  if (addEventTo.value.length === 2) {
-    addEventTo.value += ":";
-  }
-  if (addEventTo.value.length > 5) {
-    addEventTo.value = addEventTo.value.slice(0, 5);
-  }
-});
-
 //function to add event to eventsArr
 addEventSubmit.addEventListener("click", () => {
-  const eventTitle = addEventTitle.value;
-  const eventTimeFrom = addEventFrom.value;
-  const eventTimeTo = addEventTo.value;
-  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
+  const eventTitle = selectElement.value;
+  const eventTimeFrom = selectStart.value;
+  const eventTimeTo = selectEnd.value;
+  if (eventTitle === "Apartment" || eventTimeFrom === "Start time" || eventTimeTo === "End time") {
     alert("Please fill all the fields");
     return;
   }
@@ -333,26 +277,25 @@ addEventSubmit.addEventListener("click", () => {
     timeFromArr[0] > 23 ||
     timeFromArr[1] > 59 ||
     timeToArr[0] > 23 ||
-    timeToArr[1] > 59
+    timeToArr[1] > 59 ||
+    timeToArr[0] < timeFromArr[0] ||
+    (timeToArr[0] === timeFromArr[0] && timeToArr[1] < timeFromArr[1])
   ) {
     alert("Invalid Time Format");
     return;
   }
 
-  const timeFrom = convertTime(eventTimeFrom);
-  const timeTo = convertTime(eventTimeTo);
-
   const newEvent = {
     title: eventTitle,
-    time: timeFrom + " - " + timeTo,
-    start_time: `${year}-${month + 1}-${activeDay} ${timeFrom}`,
-    end_time: `${year}-${month + 1}-${activeDay} ${timeTo}`,    
+    time: eventTimeFrom + " - " + eventTimeTo,
+    start_time: `${year}-${month + 1}-${activeDay} ${eventTimeFrom}`,
+    end_time: `${year}-${month + 1}-${activeDay} ${eventTimeTo}`,    
   };
 
   const jsonData = JSON.stringify(newEvent);
 
   // Define your API endpoint URL
-  const apiUrl = '/api/laundryroom'; // Replace with your actual API URL
+  const apiUrl = '/api/laundryroom';
 
   // Make a POST request to your API
   fetch(apiUrl, {
@@ -379,9 +322,17 @@ addEventSubmit.addEventListener("click", () => {
   });
 
   addEventWrapper.classList.remove("active");
-  addEventTitle.value = "";
-  addEventFrom.value = "";
-  addEventTo.value = "";
+  selectElement.value = "Apartment";
+  selectStart.value = "Start time";
+  selectEnd.value = "End time";
+
+  const customSelectApartment = selectElement.parentNode.querySelector(".select-selected"),
+   customSelectStart = selectStart.parentNode.querySelector(".select-selected"),
+   customSelectEnd = selectEnd.parentNode.querySelector(".select-selected");
+
+  customSelectApartment.innerHTML = "Apartment";
+  customSelectStart.innerHTML = "Start time";
+  customSelectEnd.innerHTML = "End time";
   //select active day and add event class if not added
   const activeDayEl = document.querySelector(".day.active");
   if (!activeDayEl.classList.contains("event")) {
@@ -406,9 +357,130 @@ function getEventsFromAPI() {
     });
 }
 
-function convertTime(time) {
-  let timeArr = time.split(":");
-  let timeHour = timeArr[0];
-  let timeMin = timeArr[1];
-  return `${timeHour}:${timeMin}`;
-}
+const letters = ['A', 'B', 'C'];
+
+function generateApartmentOptions(selectElement) {
+  letters.forEach(letter => {
+  for (let j = 16; j <= 30; j ++) {
+      let option = document.createElement('option');
+      option.value =  letter + j
+      option.text = letter + j
+
+      selectElement.appendChild(option);
+    }
+  });
+  }
+
+  function generateStartTimeOptions(selectElement) {
+    for (let hour = 6; hour <= 21; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        let option = document.createElement('option');
+        option.value = `${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
+        option.text = `${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
+        selectElement.appendChild(option);
+      }
+    }
+  }
+
+  function generateEndTimeOptions(selectElement) {
+    for (let hour = 6; hour <= 22; hour++) {
+        let minuteStart = 0;
+        if (hour === 6) {
+            minuteStart = 15;
+        }
+
+        for (let minute = minuteStart; minute < 60; minute += 15) {
+          if (hour === 22 && minute > 0) {
+            break;
+        }
+
+        let option = document.createElement('option');
+        option.value = `${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
+        option.text = `${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
+        selectElement.appendChild(option);
+        }
+    }
+  }
+
+  generateApartmentOptions(selectElement);
+  generateStartTimeOptions(selectStart);
+  generateEndTimeOptions(selectEnd);
+
+  var x, i, j, l, ll, selElmnt, a, b, c;
+  /*look for any elements with the class "custom-select":*/
+  x = document.getElementsByClassName("custom-select");
+  l = x.length;
+  for (i = 0; i < l; i++) {
+    selElmnt = x[i].getElementsByTagName("select")[0];
+    ll = selElmnt.length;
+    /*for each element, create a new DIV that will act as the selected item:*/
+    a = document.createElement("DIV");
+    a.setAttribute("class", "select-selected");
+    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+    x[i].appendChild(a);
+    /*for each element, create a new DIV that will contain the option list:*/
+    b = document.createElement("DIV");
+    b.setAttribute("class", "select-items select-hide");
+    for (j = 1; j < ll; j++) {
+      /*for each option in the original select element,
+      create a new DIV that will act as an option item:*/
+      c = document.createElement("DIV");
+      c.innerHTML = selElmnt.options[j].innerHTML;
+      c.addEventListener("click", function(e) {
+          /*when an item is clicked, update the original select box,
+          and the selected item:*/
+          var y, i, k, s, h, sl, yl;
+          s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+          sl = s.length;
+          h = this.parentNode.previousSibling;
+          for (i = 0; i < sl; i++) {
+            if (s.options[i].innerHTML == this.innerHTML) {
+              s.selectedIndex = i;
+              h.innerHTML = this.innerHTML;
+              y = this.parentNode.getElementsByClassName("same-as-selected");
+              yl = y.length;
+              for (k = 0; k < yl; k++) {
+                y[k].removeAttribute("class");
+              }
+              this.setAttribute("class", "same-as-selected");
+              break;
+            }
+          }
+          h.click();
+      });
+      b.appendChild(c);
+    }
+    x[i].appendChild(b);
+    a.addEventListener("click", function(e) {
+        /*when the select box is clicked, close any other select boxes,
+        and open/close the current select box:*/
+        e.stopPropagation();
+        closeAllSelect(this);
+        this.nextSibling.classList.toggle("select-hide");
+        this.classList.toggle("select-arrow-active");
+      });
+  }
+  function closeAllSelect(elmnt) {
+    /*a function that will close all select boxes in the document,
+    except the current select box:*/
+    var x, y, i, xl, yl, arrNo = [];
+    x = document.getElementsByClassName("select-items");
+    y = document.getElementsByClassName("select-selected");
+    xl = x.length;
+    yl = y.length;
+    for (i = 0; i < yl; i++) {
+      if (elmnt == y[i]) {
+        arrNo.push(i)
+      } else {
+        y[i].classList.remove("select-arrow-active");
+      }
+    }
+    for (i = 0; i < xl; i++) {
+      if (arrNo.indexOf(i)) {
+        x[i].classList.add("select-hide");
+      }
+    }
+  }
+    /*if the user clicks anywhere outside the select box,
+    then close all select boxes:*/
+    document.addEventListener("click", closeAllSelect);
