@@ -20,9 +20,22 @@ const deleteDryingRes = async (id, user_id) => {
     AND user_id = ${user_id}`;
 };
 
+const getAllDryingResByUSer = async (id) => {
+  const rows = await sql`
+    SELECT id, room, apartment, start_time, end_time 
+    FROM dryingRoom 
+    WHERE user_id = ${id}
+    AND end_time > NOW()
+
+    ORDER BY start_time`;
+
+  return rows;
+}
+
 export {
   getAllDryingRes,
   addDryingRes,
   deleteDryingRes,
+  getAllDryingResByUSer,
 }
 

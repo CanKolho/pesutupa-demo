@@ -1,44 +1,59 @@
 <% layout("./layouts/resLayout.eta.html") %>
 
-<h1>Own Reservations:</h1>
-
-<br></br>
-
-<% if (it.reservations && it.reservations.length > 0) { %>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Room</th>
-      <th>Time</th>
-      <th>Deletion</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% it.reservations.forEach((res) => { %>
-      <tr>
-        <td><%= res.room %></td>
-        <td>
-          <%= res.date %>
-          <br>
-          <%= res.time %>
-        </td>
-        <td>
-          <form method="POST" action="api/<%= res.room === 'Laundry room' ? 'laundryroom' : 'dryingroom' %>/delete/<%= res.id %>">
-            <div class="form-group">
-              <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+<div class="AllResContainer">
+  <div class="laundryWrapper">
+    <h2>Laundry room:</h2>
+    <ul class="resList">
+      <% if (it.laundryReservations && it.laundryReservations.length > 0) { %>
+          <% it.laundryReservations.forEach((res) => { %>
+          <li>
+            <div class="alert alert-primary resInfo">
+              <strong><%= res.date %></strong>
+              <strong><%= res.time%></strong>
+              <form method="POST" action="api/laundryroom/delete/<%= res.id %>">
+                <i class='bx bx-trash clickable-icon'></i>
+                <input type="submit" style="display: none;">
+              </form>
             </div>
-          </form>
-        </td>
-      </tr>
-    <% }); %>
-  </tbody>
-</table>
-<% } else { %>
-  <p>No reservations!</p>
-<% } %>
+          </li>
+      <% }); %>
+    </ul>
+    <% } else { %>
+      <p style="font-size: 1.2rem;">No reservations!</p>
+      <a href="/laundry" class="btn btn-primary">Reserve Laundry room &#8594</a>
+    <% } %>
+  </div>
+  <div class="dryingWrapper">
+    <h2>Drying room:</h2>
+    <ul class="resList">
+      <% if (it.dryingReservations && it.dryingReservations.length > 0) { %>
+          <% it.dryingReservations.forEach((res) => { %>
+          <li>
+            <div class="alert alert-warning resInfo">
+              <strong><%= res.date %></strong>
+              <strong><%= res.time%></strong>
+              <form method="POST" action="api/dryingroom/delete/<%= res.id %>">
+                <i class='bx bx-trash clickable-icon'></i>
+                <input type="submit" style="display: none;">
+              </form>
+            </div>
+          </li>
+      <% }); %>
+    </ul>
+    <% } else { %>
+      <p style="font-size: 1.2rem;">No reservations!</p>
+      <a href="/drying" class="btn btn-dark">Reserve Drying room 	&#8594</a>
+    <% } %>
+  </div>
 
-<br></br>
-
-<a href="/laundry" class="btn btn-primary">Reserve Laundry room &#8594</a>
-<br></br>
-<a href="/drying" class="btn btn-dark">Reserve Drying room 	&#8594</a>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const icons = document.querySelectorAll('.clickable-icon');
+    icons.forEach(icon => {
+      icon.addEventListener('click', function() {
+        const form = icon.closest('form');
+        form.submit();
+      });
+    });
+  });
+</script>

@@ -1,21 +1,35 @@
-import * as userService from "../../services/userService.js";
+import * as LaundryService from "../../services/laundryService.js";
+import * as dryingService from "../../services/dryingService.js";
 import { formatDate } from "../../utils/helper.js";
 
 const showReservations = async ({ render, user }) => {
-  const rows = await userService.getAllUserReservations(user.id);
+  const laundryRes = await LaundryService.getAllLaundryResByUSer(user.id);
+  const dryingRes = await dryingService.getAllDryingResByUSer(user.id);
 
-  const modifiedRows = rows
+  const modifiesLaundryRes = laundryRes
     .map(res => {
       const [date, time] = formatDate(res.start_time, res.end_time);
       return {
         id: res.id,
-        room: res.room,
         date,
         time,
       }
     });
 
-  render("reservations.eta.html", { reservations: modifiedRows });
+  const modifiesDryingRes = dryingRes
+    .map(res => {
+      const [date, time] = formatDate(res.start_time, res.end_time);
+      return {
+        id: res.id,
+        date,
+        time,
+      }
+    });
+
+  render("reservations.eta.html", { 
+    laundryReservations: modifiesLaundryRes,
+    dryingReservations: modifiesDryingRes,
+  });
 };
 
 export { showReservations };
