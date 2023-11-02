@@ -13,11 +13,13 @@
 
 .AllResContainer {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	row-gap: 2rem;
 }
 
 .laundryWrapper, .dryingWrapper {
 	margin: 0rem 0rem 2.5rem 0rem;
+	flex: 1;
 }
 
 .laundryWrapper i, .dryingWrapper i{
@@ -25,13 +27,12 @@
 	cursor: pointer;
 }
 
-@media screen and (max-width: 950px) {
-  .resInfo {
-		max-width: 100vw;
+@media screen and (max-width: 1050px) {
+	.AllResContainer {
+		flex-direction: column;
 	}
 
-	.AllResContainer {
-		display: flex;
-		flex-direction: column;
+	.resInfo {
+		max-width: 100vw;
 	}
 }
