@@ -9,9 +9,9 @@ import { snelmMiddleware } from "./middlewares/snelmMiddleware.js";
 import { router } from "./routes/routes.js";
 
 const app = new Application();
+
 app.use(snelmMiddleware);
 app.use(Session.initMiddleware());
-
 app.use(errorMiddleware);
 app.use(authMiddleware);
 app.use(userMiddleware);

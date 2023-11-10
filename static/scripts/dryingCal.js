@@ -206,7 +206,7 @@ function updateEvents(date) {
 
     // Compare event times
     const timeA = a.time.split(" - ")[0]; // Start time
-    const timeB = b.time.split(" - ")[0]; // Start time
+    const timeB = b.time.split(" - ")[0]; // End time
     const timePartsA = timeA.split(":");
     const timePartsB = timeB.split(":");
     const hourA = parseInt(timePartsA[0], 10);
@@ -294,10 +294,8 @@ addEventSubmit.addEventListener("click", () => {
 
   const jsonData = JSON.stringify(newEvent);
 
-  // Define your API endpoint URL
   const apiUrl = '/api/dryingroom';
 
-  // Make a POST request to your API
   fetch(apiUrl, {
     method: 'POST',
     headers: {

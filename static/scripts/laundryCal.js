@@ -207,7 +207,7 @@ function updateEvents(date) {
 
     // Compare event times
     const timeA = a.time.split(" - ")[0]; // Start time
-    const timeB = b.time.split(" - ")[0]; // Start time
+    const timeB = b.time.split(" - ")[0]; // end time
     const timePartsA = timeA.split(":");
     const timePartsB = timeB.split(":");
     const hourA = parseInt(timePartsA[0], 10);
@@ -294,10 +294,8 @@ addEventSubmit.addEventListener("click", () => {
 
   const jsonData = JSON.stringify(newEvent);
 
-  // Define your API endpoint URL
   const apiUrl = '/api/laundryroom';
-
-  // Make a POST request to your API
+  
   fetch(apiUrl, {
     method: 'POST',
     headers: {
@@ -372,7 +370,7 @@ function generateApartmentOptions(selectElement) {
   }
 
   function generateStartTimeOptions(selectElement) {
-    for (let hour = 6; hour <= 21; hour++) {
+    for (let hour = 6; hour <= 20; hour++) {
       for (let minute = 0; minute < 60; minute += 15) {
         let option = document.createElement('option');
         option.value = `${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
@@ -383,14 +381,14 @@ function generateApartmentOptions(selectElement) {
   }
 
   function generateEndTimeOptions(selectElement) {
-    for (let hour = 6; hour <= 22; hour++) {
+    for (let hour = 6; hour <= 21; hour++) {
         let minuteStart = 0;
         if (hour === 6) {
             minuteStart = 15;
         }
 
         for (let minute = minuteStart; minute < 60; minute += 15) {
-          if (hour === 22 && minute > 0) {
+          if (hour === 21 && minute > 0) {
             break;
         }
 

@@ -34,7 +34,49 @@ const addDryingRes = async ({ request, response, user }) => {
   const body = request.body({ type: 'json' });
   const content = await body.value;
 
+  /**
+   * Checks that start is before end.
+  */
+  const startTime = new Date(content.start_time);
+  const endTime = new Date(content.end_time);
+
+  if (startTime >= endTime) {
+    response.body = { error: "Start time must be before end time." };
+    response.status = 400;
+    return;
+  }
+
+  if (startTime.getFullYear() !== endTime.getFullYear() ||
+      startTime.getMonth() !== endTime.getMonth() ||
+      startTime.getDate() !== endTime.getDate()) {
+        
+      response.body = { error: "Start and End must be on the same date." };
+      response.status = 400;
+      return;
+  }
+
+  /**
+  * Checks that reservations made to laundryroom is between 06:00 - 22:00
+  */
+  const startHour = startTime.getHours();
+  const startMinutes = startTime.getMinutes();
+  const endHour = endTime.getHours();
+  const endMinutes = endTime.getMinutes();
+
+  const isStartTimeValid = startHour > 6 || (startHour === 6 && startMinutes === 0);
+  const isEndTimeValid = endHour < 22 || (endHour === 22 && endMinutes === 0);
+
+  if (!isStartTimeValid || !isEndTimeValid) {
+    response.body = { error: "Reservation must be between 06:00 and 22:00." };
+    response.status = 400;
+    return;
+  }
+
   try {
+    /**
+    * If no error occurs (1. start is before end, 2. reservation is between 6-22, 3. does not overlap with existing reservation in database)
+    * then reservation is added to database!
+    */
     await dryingService.addDryingRes(content.title, content.start_time, content.end_time, user.id)
 
     const { year, month, day } = timeParser(content.start_time);
