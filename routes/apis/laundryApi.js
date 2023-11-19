@@ -1,5 +1,5 @@
 import * as laundryService from "../../services/laundryService.js";
-import { timeParser } from "../../utils/helper.js";
+import { timeParser, isValidTitle } from "../../utils/helper.js";
 
 const getAllLaundryRes = async ({ response }) => {
   try {
@@ -35,6 +35,15 @@ const addLaundryRes = async ({ request, response, user }) => {
   const content = await body.value;
 
   /**
+   * If title is not in correct format.
+   */
+  if (!isValidTitle(content.title)) {
+    response.body = { error: "Invalid title format." };
+    response.status = 400;
+    return;
+  }
+  
+  /**
   * Checks that start is before end.
   */
   const startTime = new Date(content.start_time);
@@ -63,7 +72,7 @@ const addLaundryRes = async ({ request, response, user }) => {
   const endHour = endTime.getHours();
   const endMinutes = endTime.getMinutes();
 
-  const isStartTimeValid = startHour > 6 || (startHour === 6 && startMinutes === 0);
+  const isStartTimeValid = startHour >= 6;
   const isEndTimeValid = endHour < 21 || (endHour === 21 && endMinutes === 0);
 
   if (!isStartTimeValid || !isEndTimeValid) {

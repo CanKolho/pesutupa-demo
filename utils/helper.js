@@ -23,3 +23,8 @@ export const formatDate = (start, end) => {
   //Reservation's date and time i.e [7.10.2023, 12:00 - 13:00]
   return [`${day}.${month}.${year}`, `${startHours}:${startMinutes} - ${endHours}:${endMinutes}`] 
 }
+
+export const isValidTitle = (title) => {
+  const validTitleRegex = /^[ABC](1[6-9]|2[0-9]|30)$/;
+  return validTitleRegex.test(title);
+}

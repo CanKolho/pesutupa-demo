@@ -1,5 +1,5 @@
 import * as dryingService from "../../services/dryingService.js"
-import { timeParser } from "../../utils/helper.js";
+import { timeParser, isValidTitle } from "../../utils/helper.js";
 
 const getAllDryingRes = async ({ response }) => {
   try {
@@ -33,7 +33,16 @@ const getAllDryingRes = async ({ response }) => {
 const addDryingRes = async ({ request, response, user }) => {
   const body = request.body({ type: 'json' });
   const content = await body.value;
-
+  
+  /**
+    * If title is not in correct format.
+    */
+  if (!isValidTitle(content.title)) {
+    response.body = { error: "Invalid title format." };
+    response.status = 400;
+    return;
+  }
+  
   /**
    * Checks that start is before end.
   */
@@ -63,7 +72,7 @@ const addDryingRes = async ({ request, response, user }) => {
   const endHour = endTime.getHours();
   const endMinutes = endTime.getMinutes();
 
-  const isStartTimeValid = startHour > 6 || (startHour === 6 && startMinutes === 0);
+  const isStartTimeValid = startHour >= 6;
   const isEndTimeValid = endHour < 22 || (endHour === 22 && endMinutes === 0);
 
   if (!isStartTimeValid || !isEndTimeValid) {
