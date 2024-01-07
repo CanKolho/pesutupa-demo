@@ -1,7 +1,11 @@
 import * as userService from "../../services/userService.js";
 import { bcrypt } from "../../deps.js";
 
-//Returns the data that is submitted through the form in login page
+/**
+ * Retrieves login data from the request body.
+ * @param {Request} request - The request object.
+ * @returns {Object} - An object containing the email and password.
+ */
 const getLoginData = async (request) => {
   const body = request.body({ type: "form" });
   const params = await body.value;
@@ -17,7 +21,7 @@ const processLogin = async ({ request, response, state, render }) => {
 
   const userFromDatabase = await userService.findUserByEmail(loginData.email);
 
-  if (userFromDatabase.length != 1) {
+  if (userFromDatabase.length !== 1) {
     loginData.errors = ['Email not found. Please check your email or register.'];
 
     render("login.eta.html", loginData);
@@ -38,7 +42,7 @@ const processLogin = async ({ request, response, state, render }) => {
 
   //Both email and password are valid
 
-  //Deleting password from user-Object that in only has properties { id, email } in session storage
+  //Deleting password from user-Object that only has properties { id, email } in session storage
   delete user.password;
 
   await state.session.set('user', user);
