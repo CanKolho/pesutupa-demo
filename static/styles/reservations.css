@@ -20,6 +20,10 @@
 	margin: 0rem 0rem 2.5rem 0rem;
 }
 
+.laundryWrapper h2, .dryingWrapper h2 {
+	font-weight: 300;
+}
+
 .laundryWrapper i, .dryingWrapper i{
 	font-size: 1.3rem;
 	cursor: pointer;
