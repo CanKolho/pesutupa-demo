@@ -8,11 +8,11 @@ This is a **demo version** of the app, created to showcase the product and its f
 
 ## Technologies Used
 - **Frontend:**
-  - **HTML:** Markup language for structuring and presenting content on the World Wide Web.
-  - **Bootstrap:** A front-end framework for developing responsive and mobile-first web pages.
+  - **HTML:** Markup language for structuring and presenting content.
+  - **Bootstrap:** A front-end framework for developing responsive web pages.
 
 - **Backend:**
-  - **Deno's Oak Framework:** A middleware framework for Deno's net server, providing a simple and intuitive API for creating web applications.
+  - **Deno's Oak Framework:** A middleware framework for Deno's net server.
 
 - **Database:**
   - **PostgreSQL:** An open-source relational database management system emphasizing extensibility and SQL compliance.
@@ -23,7 +23,7 @@ This is a **demo version** of the app, created to showcase the product and its f
 - **Calendar View:** Provides a visual representation of available and booked time slots.
 
 ## Usage
-- Navigate to the URL in a web browser [pesutupa.demo](https://pesutupa-demo.onrender.com).
+- Navigate to the URL in a web browser: [pesutupa.demo](https://pesutupa-demo.onrender.com)
 - Register or log in.
 - Use the calendar interface to view available slots and make reservations.
 
